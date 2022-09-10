@@ -11,6 +11,10 @@ import {MatButtonModule} from "@angular/material/button";
     CommonModule,
     FlexLayoutModule,
     MatButtonModule,
+  ],
+  exports: [
+    FlexLayoutModule,
+    MatButtonModule,
   ]
 })
 export class SharedModule { }
