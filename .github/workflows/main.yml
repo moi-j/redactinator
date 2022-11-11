@@ -24,7 +24,7 @@ jobs:
         id: regex-match
         with:
           text: ${{ github.event.pull_request.body }}
-          regex: '^\[([\w\s\d]+)\]\(((?:\/|https?:\/\/)[\w\d./?=#]+)\)$'
+          regex: '^\[([\w\s\d]+)\]\(((?:\/|https?:\/\/)[\w\d.?=#]+)\)$'
       - name: Create Pull Request
         uses: devops-infra/action-pull-request@v0.5.3
         with:
