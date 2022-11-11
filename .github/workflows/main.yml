@@ -24,7 +24,7 @@ jobs:
         id: regex-match
         with:
           text: ${{ github.event.pull_request.body }}
-          regex: '\[(Jira|jira|JIRA)\]\(.[^)]*\)'
+          regex: 'https:\/\/rubiconmd.atlassian.net\/[^\)]*'
       - name: Create Pull Request
         uses: devops-infra/action-pull-request@v0.5.3
         with:
