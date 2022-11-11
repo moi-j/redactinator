@@ -24,7 +24,7 @@ jobs:
         id: regex-match
         with:
           text: ${{ github.event.pull_request.body }}
-          regex: '^\[([\w\s\d]+)\]\(((?:\/|https?:\/\/)[\w\d./?=#]+)\)$'
+          regex: '\[(jira|JIRA|Jira)\]\(.*?\)'
       - name: Create Pull Request
         uses: devops-infra/action-pull-request@v0.5.3
         with:
@@ -32,7 +32,7 @@ jobs:
           title: ${{ steps.masterTitle.outputs.result }}
           body: |
             ${{ steps.regex-match.outputs.group1 }}
-            
+
             _QA PR_
             ${{github.event.pull_request.html_url}}
           source_branch: ${{github.event.pull_request.head.ref}}
