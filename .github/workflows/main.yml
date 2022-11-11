@@ -20,4 +20,4 @@ jobs:
           commit-message: update authors
           title: github.event.pull_request.title
           body: Credit new contributors by updating AUTHORS
-          branch: master
+          branch: main
