@@ -22,10 +22,12 @@ jobs:
           qa: master
       - name: Create Pull Request
         uses: devops-infra/action-pull-request@v0.5.3
+        env:
+          Github_Url: ${{github.event.pull_request.html.url}}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           title: ${{ steps.masterTitle.outputs.result }}
-          body: [JIRA](https://google.com) \n _QA PR_ \n ${{github.event.pull_request.html.url}}
+          body: "[JIRA](https://google.com) <br><br> _QA PR_ <br> $Github_Url"
           source_branch: ${{github.event.pull_request.head.ref}}
           target_branch: main
           label: Waiting On QA
