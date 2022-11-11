@@ -24,7 +24,7 @@ jobs:
         id: regex-match
         with:
           text: ${{ github.event.pull_request.body }}
-          regex: '\[(jira|JIRA|Jira)\]\(.*?\)'
+          regex: '\[(Jira|jira|JIRA)\]\(.[^)]*\)'
       - name: Create Pull Request
         uses: devops-infra/action-pull-request@v0.5.3
         with:
