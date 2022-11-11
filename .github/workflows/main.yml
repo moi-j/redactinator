@@ -23,9 +23,9 @@ jobs:
       - name: Generate master PR body
         id: MasterPRBody
         env:
-          PR_URL: ${{github.event.pull_request.html.url}}
+          master_pr_url: ${{github.event.pull_request.html.url}}
         run: |
-          echo "::set-output name=BODY_TEXT::'[JIRA](https://google.com) <br><br> _QA PR_ <br> $PR_URL'"
+          echo "::set-output name=BODY_TEXT::[JIRA](https://google.com) <br><br> _QA PR_ <br> $master_pr_url"
       - name: Create Pull Request
         uses: devops-infra/action-pull-request@v0.5.3
         with:
