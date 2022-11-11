@@ -27,7 +27,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           title: ${{ steps.masterTitle.outputs.result }}
-          body: "[JIRA](https://google.com) <br><br> _QA PR_ <br> $Github_Url"
+          body: echo "[JIRA](https://google.com) <br><br> _QA PR_ <br> $Github_Url"
           source_branch: ${{github.event.pull_request.head.ref}}
           target_branch: main
           label: Waiting On QA
