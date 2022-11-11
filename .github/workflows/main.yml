@@ -18,6 +18,6 @@ jobs:
         uses: peter-evans/create-pull-request@v4
         with:
           commit-message: update authors
-          title: github.event.pull_request.title
+          title: master | ${{ github.event.pull_request.title }}
           body: Credit new contributors by updating AUTHORS
           branch: main
