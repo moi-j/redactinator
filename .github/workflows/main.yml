@@ -21,4 +21,5 @@ jobs:
           commit-message: update authors
           title: master | ${{ github.event.pull_request.title }}
           body: Credit new contributors by updating AUTHORS
-          branch: main
+          base: main
+          branch: ${{github.event.pull_request.head.ref}}
