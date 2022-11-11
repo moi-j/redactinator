@@ -15,11 +15,19 @@ jobs:
         with:
           ref: ${{github.event.pull_request.head.ref}}
           fetch-depth: 0
+      - uses: bluwy/substitute-string-action@v1
+        id: masterTitle
+        with:
+          _input-text: ${{ github.event.pull_request.title }}
+          qa: master
       - name: Create Pull Request
         uses: devops-infra/action-pull-request@v0.5.3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          title: master | ${{ github.event.pull_request.title }}
-          body: Credit new contributors by updating AUTHORS
+          title: ${{ steps.masterTitle.outputs.result }}
+          body: [JIRA](https://google.com) \n _QA PR_ \n ${{github.event.pull_request.html.url}}
           source_branch: ${{github.event.pull_request.head.ref}}
           target_branch: main
+          label: Waiting On QA
+          assignee: ${{github.event.sender.login}}
+
