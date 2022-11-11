@@ -36,4 +36,4 @@ jobs:
           target_branch: main
           label: Waiting On QA
           assignee: ${{github.event.sender.login}}
-
+          milestone: Next
