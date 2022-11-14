@@ -8,6 +8,19 @@ on:
       - 'qa'
 
 jobs:
+  updateQaPR:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Update Title
+        uses: juztcode/pr-updater@1.0.0
+        with:
+          title: qa | ${{ github.event.pull_request.title }}
+      - uses: augustohp/github-action-pr-assignee
+      - uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: Waiting On QA
+
   openMasterPR:
     runs-on: ubuntu-latest
     steps:
