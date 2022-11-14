@@ -18,24 +18,13 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           title: qa | ${{ github.event.pull_request.title }}
       - uses: kentaro-m/auto-assign-action@v1.2.4
-        with:
-          addAssignees: author
       - uses: actions-ecosystem/action-add-labels@v1
         with:
-          labels: Waiting On QA
-
-  openMasterPR:
-    runs-on: ubuntu-latest
-    steps:
+          labels: Needs Review
       - uses: actions/checkout@v3
         with:
           ref: ${{github.event.pull_request.head.ref}}
           fetch-depth: 0
-      - uses: bluwy/substitute-string-action@v1
-        id: masterTitle
-        with:
-          _input-text: ${{ github.event.pull_request.title }}
-          qa: master
       - uses: actions-ecosystem/action-regex-match@v2
         id: regex-match
         with:
@@ -45,7 +34,7 @@ jobs:
         uses: devops-infra/action-pull-request@v0.5.3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          title: ${{ steps.masterTitle.outputs.result }}
+          title: master | ${{ github.event.pull_request.title }}
           body: |
             ${{ steps.regex-match.outputs.match }}
 
