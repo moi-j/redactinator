@@ -1,4 +1,4 @@
-name: RMD Auto Master PR
+name: RMD Pull Request Normalizer
 
 on:
   pull_request:
@@ -8,40 +8,39 @@ on:
       - 'qa'
 
 jobs:
-  updateQaPR:
+  normalizePullRequests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Update Title
         uses: juztcode/pr-updater@1.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          title: qa | ${{ github.event.pull_request.title }}
+          title: qa|${{ steps.regex-match.outputs.match }} ${{ github.event.pull_request.title }}
       - uses: kentaro-m/auto-assign-action@v1.2.4
       - uses: actions-ecosystem/action-add-labels@v1
         with:
           labels: Needs Review
       - uses: actions/checkout@v3
         with:
-          ref: ${{github.event.pull_request.head.ref}}
+          ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0
       - uses: actions-ecosystem/action-regex-match@v2
         id: regex-match
         with:
-          text: ${{ github.event.pull_request.body }}
-          regex: '\[(Jira|jira|JIRA)\]\(.[^)]*\)'
+          text: ${{ github.event.pull_request.head.ref }}
+          regex: '\w+-\d+'
       - name: Create Pull Request
         uses: devops-infra/action-pull-request@v0.5.3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          title: master | ${{ github.event.pull_request.title }}
+          title: master|${{ steps.regex-match.outputs.match }} ${{ github.event.pull_request.title }}
           body: |
-            ${{ steps.regex-match.outputs.match }}
+            [Jira](https://rubiconmd.atlassian.net/browse/${{ steps.regex-match.outputs.match }})
 
-            _QA PR_
-            ${{github.event.pull_request.html_url}}
-          source_branch: ${{github.event.pull_request.head.ref}}
+            **Related PRs:**
+            - {${{github.event.pull_request.html_url}}}
+          source_branch: ${{ github.event.pull_request.head.ref }}
           target_branch: main
           label: Waiting On QA
-          assignee: ${{github.event.sender.login}}
-          milestone: Next
+          draft: true
