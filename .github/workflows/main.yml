@@ -18,15 +18,9 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           title: qa | ${{ github.event.pull_request.title }}
       - uses: kentaro-m/auto-assign-action@v1.2.4
-        with:
-          addAssignees: author
       - uses: actions-ecosystem/action-add-labels@v1
         with:
           labels: Waiting On QA
-
-  openMasterPR:
-    runs-on: ubuntu-latest
-    steps:
       - uses: actions/checkout@v3
         with:
           ref: ${{github.event.pull_request.head.ref}}
