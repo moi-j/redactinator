@@ -48,4 +48,4 @@ jobs:
           target_branch: main
           label: Waiting On QA
           draft: true
-          milestone: next
+          milestone: Next
