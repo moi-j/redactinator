@@ -49,3 +49,4 @@ jobs:
           label: Waiting On QA
           draft: true
           milestone: Next
+          assignee: ${{ github.actor }}
