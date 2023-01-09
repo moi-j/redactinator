@@ -50,3 +50,4 @@ jobs:
           draft: true
           milestone: Next
           assignee: ${{ github.actor }}
+          author: ${{ github.actor }}
