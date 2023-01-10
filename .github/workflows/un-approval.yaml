@@ -3,6 +3,8 @@ name: Prevent committers from approvaing a PR
 on:
   pull_request_review:
     types: [submitted]
+    branches:
+      - 'master/**'
 
 jobs:
   preventapprove:
