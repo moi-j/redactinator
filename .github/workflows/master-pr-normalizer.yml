@@ -32,12 +32,24 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           milestone: 'next'
       - uses: mad9000/actions-find-and-replace-string@2
-        id: find-and-replace
+        id: find-and-replace-title
         if: ${{steps.find-pull-request.outputs}}
         with:
           source: ${{ steps.find-pull-request.outputs.title }}
           find: 'qa|'
           replace: 'master|'
+      - uses: actions-ecosystem/action-regex-match@v2
+        id: regex-match-pull-request-code
+        with:
+          text: ${{ github.event.pull_request.html_url }}
+          regex: '*pulls\/\d+'
+      - uses: mad9000/actions-find-and-replace-string@2
+        id: find-and-replace-url
+        if: ${{steps.find-pull-request.outputs}}
+        with:
+          source: ${{ github.event.pull_request.html_url }}
+          find: ${{ steps.regex-match.outputs.match }}
+          replace: 'pulls/${{steps.find-pull-request.outputs.number}}'
       - name: Update Pull Request
         uses: juztcode/pr-updater@1.0.0
         if: ${{steps.find-pull-request.outputs}}
@@ -48,4 +60,4 @@ jobs:
             [Jira](https://rubiconmd.atlassian.net/browse/${{ steps.regex-match.outputs.match }})
             
             **Related PRs:**
-            - ${{steps.find-pull-request.outputs.url}}
+            - ${{steps.find-and-replace-url.outputs.value}}
