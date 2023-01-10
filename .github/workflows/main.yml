@@ -30,23 +30,4 @@ jobs:
       - uses: actions-ecosystem/action-add-labels@v1
         with:
           labels: Needs Review
-      - uses: actions/checkout@v3
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
-          fetch-depth: 0
-      - name: Create Pull Request
-        uses: devops-infra/action-pull-request@v0.5.3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          title: master|${{ steps.regex-match.outputs.match }} ${{ github.event.pull_request.title }}
-          body: |
-            [Jira](https://rubiconmd.atlassian.net/browse/${{ steps.regex-match.outputs.match }})
 
-            **Related PRs:**
-            - ${{github.event.pull_request.html_url}}
-          source_branch: ${{ github.event.pull_request.head.ref }}
-          target_branch: main
-          label: Waiting On QA
-          draft: true
-          milestone: Next
-          assignee: ${{ github.actor }}
