@@ -1,0 +1,51 @@
+name: RMD Master Pull Request Normalizer
+
+on:
+  pull_request:
+    types:
+      - opened
+    branches:
+      - 'main'
+
+jobs:
+  normalizeMasterPullRequests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions-ecosystem/action-regex-match@v2
+        id: regex-match
+        with:
+          text: ${{ github.event.pull_request.head.ref }}
+          regex: '\w+-\d+'
+      - name: Find Pull Request
+        uses: juliangruber/find-pull-request-action@v1
+        id: find-pull-request
+        with:
+          branch: ${{ github.event.pull_request.head.ref }}
+          base: qa
+      - uses: kentaro-m/auto-assign-action@v1.2.4
+      - uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: Waiting On QA
+      - uses: zoispag/action-assign-milestone@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          milestone: 'next'
+      - uses: mad9000/actions-find-and-replace-string@2
+        id: find-and-replace
+        if: ${{steps.find-pull-request.outputs}}
+        with:
+          source: ${{ steps.regex-match.outputs.title }}
+          find: 'qa|'
+          replace: 'master|'
+      - name: Update Pull Request
+        uses: juztcode/pr-updater@1.0.0
+        if: ${{steps.find-pull-request.outputs}}
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: master|${{ steps.find-and-replace.outputs.value }}
+          body: |
+            [Jira](https://rubiconmd.atlassian.net/browse/${{ steps.regex-match.outputs.match }})
+            
+            **Related PRs:**
+            - ${{steps.find-pull-request.outputs.url}}
