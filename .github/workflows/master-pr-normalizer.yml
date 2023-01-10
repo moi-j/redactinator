@@ -42,7 +42,7 @@ jobs:
         id: regex-match-pull-request-code
         with:
           text: ${{ github.event.pull_request.html_url }}
-          regex: '*pulls\/\d+'
+          regex: 'pulls\/\d+'
       - uses: mad9000/actions-find-and-replace-string@2
         id: find-and-replace-url
         if: ${{steps.find-pull-request.outputs}}
