@@ -48,7 +48,7 @@ jobs:
         if: ${{steps.find-pull-request.outputs}}
         with:
           source: ${{ github.event.pull_request.html_url }}
-          find: ${{ steps.regex-match.outputs.match }}
+          find: ${{ steps.regex-match-pull-request-code.outputs.match }}
           replace: 'pulls/${{steps.find-pull-request.outputs.number}}'
       - name: Update Pull Request
         uses: juztcode/pr-updater@1.0.0
