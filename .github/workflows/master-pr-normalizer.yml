@@ -43,7 +43,7 @@ jobs:
         if: ${{steps.find-pull-request.outputs}}
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          title: master|${{ steps.find-and-replace.outputs.value }}
+          title: ${{ steps.find-and-replace.outputs.value }}
           body: |
             [Jira](https://rubiconmd.atlassian.net/browse/${{ steps.regex-match.outputs.match }})
             
