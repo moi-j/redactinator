@@ -35,7 +35,7 @@ jobs:
         id: find-and-replace
         if: ${{steps.find-pull-request.outputs}}
         with:
-          source: ${{ steps.regex-match.outputs.title }}
+          source: ${{ steps.find-pull-request.outputs.title }}
           find: 'qa|'
           replace: 'master|'
       - name: Update Pull Request
